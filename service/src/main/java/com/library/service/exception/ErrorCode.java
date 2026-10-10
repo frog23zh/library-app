@@ -8,7 +8,6 @@ public enum ErrorCode {
     AUTHOR_NAME_TAKEN      (HttpStatus.CONFLICT,     "Автор с таким именем уже существует"),
     AUTHOR_HAS_BOOKS       (HttpStatus.BAD_REQUEST,  "Нельзя удалить автора с существующими книгами"),
     BOOK_NOT_FOUND         (HttpStatus.NOT_FOUND,    "Книга не найдена"),
-    BOOK_ISBN_TAKEN        (HttpStatus.CONFLICT,     "Книга с таким ISBN уже существует"),
     VALIDATION_ERROR       (HttpStatus.BAD_REQUEST,  "Ошибка валидации"),
     INTERNAL_ERROR         (HttpStatus.INTERNAL_SERVER_ERROR, "Внутренняя ошибка");
 

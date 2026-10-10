@@ -1,7 +1,18 @@
 package com.library.service.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.library.service.dto.request.AuthorRequest;
+import com.library.service.dto.request.BookRequest;
+import com.library.service.dto.response.AuthorResponse;
+import com.library.service.dto.response.BookResponse;
+import com.library.service.service.AuthorService;
+import com.library.service.service.BookService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <h2>REST API контроллер</h2>
@@ -83,5 +94,61 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class LibraryController {
+
+    private final AuthorService authorService;
+    private final BookService bookService;
+
+    @PostMapping("/authors")
+    public ResponseEntity<AuthorResponse> createAuthor(@Valid @RequestBody AuthorRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(authorService.create(request));
+    }
+
+    @GetMapping("/authors")
+    public ResponseEntity<List<AuthorResponse>> getAllAuthors(){
+        return ResponseEntity.ok(authorService.getAll());
+    }
+
+    @GetMapping("/authors/{id}")
+    public ResponseEntity<AuthorResponse> getAuthorById(@PathVariable Long id){
+        return ResponseEntity.ok(authorService.getById(id));
+    }
+
+    @PutMapping("/authors/{id}")
+    public ResponseEntity<AuthorResponse> updateAuthor(@PathVariable Long id, @Valid @RequestBody AuthorRequest request){
+        return ResponseEntity.ok(authorService.update(id, request));
+    }
+
+    @DeleteMapping("/authors/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id){
+        authorService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/books")
+    public ResponseEntity<BookResponse> createBook(@Valid @RequestBody BookRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(request));
+    }
+
+    @GetMapping("/books")
+    public ResponseEntity<List<BookResponse>> getAllBooks(){
+        return ResponseEntity.ok(bookService.getAll());
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity<BookResponse> getBookById(@PathVariable Long id){
+        return ResponseEntity.ok(bookService.getById(id));
+    }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest request){
+        return ResponseEntity.ok(bookService.update(id, request));
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id){
+        bookService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
